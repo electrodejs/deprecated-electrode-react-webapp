@@ -7,6 +7,7 @@ const electrodeServer = require("electrode-server");
 describe("Test electrode-react-webapp", () => {
 
   let config;
+  let configOptions;
   let paths;
 
   const getConfig = () => {
@@ -33,7 +34,8 @@ describe("Test electrode-react-webapp", () => {
 
   beforeEach(() => {
     config = getConfig();
-    paths = config.plugins["./lib/index"].options.paths["/{args*}"];
+    configOptions = config.plugins["./lib/index"].options;
+    paths = configOptions.paths["/{args*}"];
   });
 
   const stopServer = (server) =>
@@ -116,13 +118,10 @@ describe("Test electrode-react-webapp", () => {
   });
 
   it("should handle multiple entry points - foo", () => {
-    const serverConfig = getConfig();
-    const serverOptions = serverConfig.plugins["./lib/index"].options;
+    configOptions.bundleChunkSelector = "test/data/chunk-selector.js";
+    configOptions.stats = "test/data/stats-test-multibundle.json";
 
-    serverOptions.bundleChunkSelector = "test/data/chunk-selector.js";
-    serverOptions.stats = "test/data/stats-test-multibundle.json";
-
-    return electrodeServer(serverConfig)
+    return electrodeServer(config)
       .then((server) => {
         return server.inject({
           method: "GET",
@@ -141,13 +140,10 @@ describe("Test electrode-react-webapp", () => {
   });
 
   it("should handle multiple entry points - bar", () => {
-    const serverConfig = getConfig();
-    const serverOptions = serverConfig.plugins["./lib/index"].options;
+    configOptions.bundleChunkSelector = "test/data/chunk-selector.js";
+    configOptions.stats = "test/data/stats-test-multibundle.json";
 
-    serverOptions.bundleChunkSelector = "test/data/chunk-selector.js";
-    serverOptions.stats = "test/data/stats-test-multibundle.json";
-
-    return electrodeServer(serverConfig)
+    return electrodeServer(config)
       .then((server) => {
         return server.inject({
           method: "GET",
@@ -166,13 +162,10 @@ describe("Test electrode-react-webapp", () => {
   });
 
   it("should handle multiple entry points - default", () => {
-    const serverConfig = getConfig();
-    const serverOptions = serverConfig.plugins["./lib/index"].options;
+    configOptions.bundleChunkSelector = "test/data/chunk-selector.js";
+    configOptions.stats = "test/data/stats-test-multibundle.json";
 
-    serverOptions.bundleChunkSelector = "test/data/chunk-selector.js";
-    serverOptions.stats = "test/data/stats-test-multibundle.json";
-
-    return electrodeServer(serverConfig)
+    return electrodeServer(config)
       .then((server) => {
         return server.inject({
           method: "GET",
@@ -191,12 +184,9 @@ describe("Test electrode-react-webapp", () => {
   });
 
   it("should inject a pwa manfiest", () => {
-    const serverConfig = getConfig();
-    const serverOptions = serverConfig.plugins["./lib/index"].options;
+    configOptions.stats = "test/data/stats-test-pwa.json";
 
-    serverOptions.stats = "test/data/stats-test-pwa.json";
-
-    return electrodeServer(serverConfig)
+    return electrodeServer(config)
       .then((server) => {
         return server.inject({
           method: "GET",
@@ -214,12 +204,9 @@ describe("Test electrode-react-webapp", () => {
   });
 
   it("should inject pwa icons", () => {
-    const serverConfig = getConfig();
-    const serverOptions = serverConfig.plugins["./lib/index"].options;
+    configOptions.iconStats = "test/data/icon-stats-test-pwa.json";
 
-    serverOptions.iconStats = "test/data/icon-stats-test-pwa.json";
-
-    return electrodeServer(serverConfig)
+    return electrodeServer(config)
       .then((server) => {
         return server.inject({
           method: "GET",
@@ -239,12 +226,9 @@ describe("Test electrode-react-webapp", () => {
   });
 
   it("should inject critical css", () => {
-    const serverConfig = getConfig();
-    const serverOptions = serverConfig.plugins["./lib/index"].options;
+    configOptions.criticalCSS = "test/data/critical.css";
 
-    serverOptions.criticalCSS = "test/data/critical.css";
-
-    return electrodeServer(serverConfig)
+    return electrodeServer(config)
       .then((server) => {
         return server.inject({
           method: "GET",
