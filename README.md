@@ -1,3 +1,7 @@
+# Deprecated
+
+This repo has been moved [here](https://github.com/electrode-io/electrode/tree/a32cda978b98ebe880a2b4edaa0f04fb6af7bc98/packages/electrode-react-webapp)
+
 # Electrode React Webapp
 
 This is a Hapi plugin that register a default route for your Webapp to return
